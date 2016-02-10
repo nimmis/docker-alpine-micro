@@ -1,6 +1,7 @@
 ## microcontainer based on Alpine with working init process
 [![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest)
-This is a very small container (11.9 Mb) but still have a working init process, crond and syslog. This is the base image for all my other microcontainers
+
+This is a very small container (11.9 Mb) but still have a working init process, crond, syslog and logrotate. This is the base image for all my other microcontainers
 
 ### Why use this image
 
