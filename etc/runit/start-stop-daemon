@@ -1,0 +1,310 @@
+#!/bin/zsh
+#
+# This script is intended to wrap start-stop-daemon. It will call the
+# original start-stop-daemon with the supplied arguments unless the daemon
+# to be started appears to exist as a runit service, in which case it will
+# map the start-stop-daemon call to an sv(8) call.
+#
+#
+# From: Andras Korn <korn-debbugs@elan.rulez.org>
+# To: Debian Bug Tracking System <submit@bugs.debian.org>
+# Subject: Please consider including attached start-stop-daemon.runit script
+# Date: Mon, 25 Jun 2012 16:46:55 +0200
+# 
+# Hi,
+# 
+# Since the release of 2.88dsf-23 of sysv-rc, dependency based boot ordering
+# is mandatory in Debian; however, insserv fails to recognise symlinks to
+# /usr/bin/sv as valid initscripts.
+# 
+# This makes using runit unnecessarily painful; to ease the pain, I wrote a
+# pretty complete start-stop-daemon wrapper for runit (alas, in zsh).
+# 
+# Diverting /sbin/start-stop-daemon to /sbin/start-stop-daemon.real and using
+# this script, conventional initscripts continue to "work". My script
+# determines whether it should pass the call through to the real
+# start-stop-daemon or to use sv(8) to manage a runit service.
+# 
+# While it's a bit of a kludge, it appears to work fairly well.
+# 
+# An important drawback is that it needs to be adapted each time the semantics
+# of start-stop-daemon change, but maybe that doesn't happen so often.
+# 
+# The script uses few zsh-specific features; a determined person should be
+# able to modify it to run in bash or even plain sh relatively easily (but I
+# have no time/interest to do so myself).
+# 
+# The script is licensed under the GPL v3, with the special exception that
+# permission is granted to include it in the runit package and license it to
+# users of the runit package under the same license as the rest of the
+# package.
+# 
+# Work on the script was sponsored by CAE Engineering Kft.
+# 
+# Best regards,
+# 
+# Andras
+
+# If called by non-root user, fall back to original start-stop-daemon
+# unconditionally
+[[ $UID -gt 0 ]] && exec /sbin/start-stop-daemon.real $@
+
+set -A args $@
+
+SVDIR=${SVDIR:-/etc/service}
+
+unset mode signal exec timeout startas testmode oknodo quiet verbose command svstat
+oknodo=0
+quiet=0
+
+while [[ -n "$1" ]]; do
+	case "$1" in
+		-S|--start)
+			mode=start
+			;;
+		-K|--stop)
+			mode=stop
+			;;
+		-T|--status)
+			mode=status
+			;;
+		-H|--help|-V|--version)
+			exec /sbin/start-stop-daemon.real $args
+			;;
+		-x|--exec)
+			shift
+			exec="$1"
+			;;
+		-s|--signal)
+			shift
+			signal=$1
+			;;
+		--signal=*)
+			signal="${1/--signal=/}"
+			;;
+		-R|--retry)
+			shift
+			timeout="$1"
+			;;
+		--retry=*)
+			timeout="${1/--retry=/}"
+			;;
+		-a|--startas)
+			shift
+			startas="$1"
+			;;
+		-t|--test)
+			testmode=1
+			;;
+		-o|--oknodo)
+			oknodo=1
+			;;
+		-q|--quiet)
+			quiet=1
+			exec >/dev/null
+			;;
+		-v|--verbose)
+			verbose=1
+			;;
+		-p|--pidfile|-n|--name|-u|--user|-g|--group|-r|--chroot|-d|--chdir|-N|--nicelevel|-P|--procsched|-I|--iosched|-k|--umask|-m|--make-pidfile)
+			# ignored
+			shift
+			;;
+		--pidfile=*|-b|--background|--nicelevel=*|--procsched=*|--iosched=*|--umask=*)
+			;;
+		--)
+			# What follows is args to the daemon. Avoid parsing
+			# those accidentally.
+			break
+			;;
+		*)
+			# Assume the previous was the last option; the rest
+			# is the name of the daemon plus args, of which we
+			# only care about the daemon.
+			command=$1
+			break
+			;;
+	esac
+	shift
+done
+
+# returns success if $1 appears to be the name of a runit service
+function issvname() {
+	if [[ -d "$SVDIR/$1/supervise/." ]]; then
+		return 0
+	# 'supervise' could still be a symlink to a directory that doesn't exist yet
+	elif [[ -L $SVDIR/$1/supervise ]] && ! [[ -e $SVDIR/$1/supervise ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+# TODO: decide what to do if the runit service we're supposed to manage
+# doesn't exist in the current svdir but does in other "runlevels"
+
+# Try to infer runit service name. If our parent is an initscript, use its
+# basename
+foundsvname=0
+read -A cmdline </proc/$PPID/cmdline
+while [[ -n "$cmdline[1]" ]]; do
+	if [[ "${cmdline[1]:h}" = /etc/init.d ]]; then
+		svname=${cmdline[1]:t}
+		break
+	fi
+	shift cmdline
+done
+if [[ -z "$svname" ]] && [[ "${$(readlink -f /proc/$PPID/exe):h}" = /etc/init.d ]]; then
+	read svname < /proc/$PPID/comm
+fi
+
+issvname $svname && foundsvname=1
+
+# if not, try other heuristics
+if [[ $foundsvname = 0 ]]; then
+	svnames=($startas $exec $command)
+	while [[ -n "$svnames[1]" ]]; do
+		if issvname ${svnames[1]:t}; then
+			svname=${svnames[1]:t}
+			foundsvname=1
+			break
+		else
+			shift svnames
+		fi
+	done
+fi
+
+# if still not found, call real start-stop-daemon
+if [[ "$foundsvname" = 0 ]]; then
+	exec /sbin/start-stop-daemon.real $args
+fi
+
+# otherwise, do what we've been asked to
+[[ "$quiet" = "0" ]] && [[ "$verbose" = "1" ]] && echo "start-stop-daemon.runit: will act on $svname service." >&2
+
+function sendsig() {
+	case "$signal" in
+		HUP|1)
+			sv hup $svname
+			;;
+		INT|2)
+			sv interrupt $svname
+			;;
+		QUIT|3)
+			sv quit $svname
+			;;
+		KILL|9)
+			sv d $svname
+			sv kill $svname
+			;;
+		USR1|10)
+			sv 1 $svname
+			;;
+		USR2|12)
+			sv 2 $svname
+			;;
+		ALRM|14)
+			sv alarm $svname
+			;;
+		TERM|15)
+			sv down $svname
+			;;
+		CONT|18)
+			sv cont $svname
+			;;
+		STOP|19)
+			sv pause $svname
+			;;
+		*)
+			echo "$0: ERROR: don't know how to send $signal signal to $svname." >&2
+			exit 3
+			;;
+	esac
+}
+
+function wait_until_exited() {
+	counter=0
+	read svstat < $SVDIR/$svname/supervise/stat
+	while ! [[ "$svstat" = down ]]; do
+		((counter++))
+		[[ $counter -gt $timeout ]] && return 1
+		sleep 1
+		read svstat < $SVDIR/$svname/supervise/stat
+	done
+	return 0
+}
+
+function do_stop() {
+	if [[ $timeout =~ / ]]; then
+# handle complex schedule
+		OLDIFS="$IFS"
+		IFS=/
+		echo $timeout | read -A schedule
+		IFS="$OLDIFS"
+		while [[ -n "$schedule[1]" ]]; do
+			signal=$schedule[1]
+			sendsig
+			shift schedule
+			timeout=$schedule[1]
+			wait_until_exited && exit 0
+			shift schedule
+		done
+		exit 2
+	else
+# simple timeout
+		if [[ -z "$signal" ]]; then
+			if [[ $timeout =~ ^[0-9]+$ ]]; then
+				export SVWAIT=$timeout
+			fi
+			if sv stop $svname; then
+				exit 0
+			else
+				exit 1
+			fi
+		else
+			sendsig
+			[[ -n "$timeout" ]] && if wait_until_exited; then
+				exit 0
+			else
+				exit 1
+			fi
+		fi
+	fi
+}
+
+if [[ -r $SVDIR/$svname/supervise/stat ]]; then
+	read svstat < $SVDIR/$svname/supervise/stat
+else
+	# runsv is not yet up
+	svstat=none
+fi
+case "$mode" in
+	start)
+		[[ "$svstat" = run ]] && [[ "$oknodo" = "0" ]] && exit 1 # Emulate start-stop-daemon semantics
+		[[ -z "$testmode" ]] && ! [[ "$svstat" = "none" ]] && sv start $svname
+		exit 0
+		;;
+	stop)
+		[[ "$svstat" = none ]] && exit 0
+		[[ "$svstat" = down ]] && [[ "$oknodo" = "1" ]] && exit 1 # Emulate start-stop-daemon semantics
+		[[ -z "$testmode" ]] && do_stop # handles --retry and --signal, therefore separate function
+		;;
+	status)
+		case "$svstat" in
+# States are complex; we only handle the most basic cases here and bail on
+# the rest (e.g. "finish" cannot be correctly reported as "running" or "not
+# running")
+			run)
+				exit 0
+				;;
+			down|none)
+				exit 3
+				;;
+			*)
+				exit 4
+				;;
+		esac
+		;;
+esac
+exit 0
+
