@@ -1,3 +1,0 @@
-#!/bin/sh
-echo "this script is only executed once on each container"
-touch /tmp/once
