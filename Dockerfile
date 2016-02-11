@@ -14,6 +14,7 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
     cp -Rp docker-alpine-bin/service /etc && \
     rm -Rf docker-alpine-bin && \
     apk del git && \
+    sed  -i "s|\*.emerg|\#\*.emerg|" /etc/rsyslog.conf && \
     rm -rf /var/cache/apk/*
 
 # Set environment variables.
