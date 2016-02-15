@@ -2,17 +2,17 @@ FROM alpine:latest
 
 MAINTAINER nimmis <kjell.havneskold@gmail.com>
 
-COPY boot.sh /
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk update && apk upgrade && \
     apk add ca-certificates rsyslog logrotate runit@testing && \
     mkdir /etc/run_always && mkdir /etc/run_once && \
-    apk add git && git clone https://github.com/nimmis/docker-alpine-bin.git && \
-    cp -p docker-alpine-bin/bin/* /usr/local/bin && \
-    cp -Rp docker-alpine-bin/runit /etc && \
-    cp -Rp docker-alpine-bin/service /etc && \
-    rm -Rf docker-alpine-bin && \
+    apk add git && git clone https://github.com/nimmis/docker-utils.git && \
+    cp -p docker-utils/alpine/bin/* /usr/local/bin && \
+    cp -Rp docker-utils/alpine/runit /etc && \
+    cp -Rp docker-utils/alpine/service /etc && \
+    cp -Rp docker-utils/alpine/root/* / && \
+    rm -Rf docker-utils && \
     apk del git && \
     sed  -i "s|\*.emerg|\#\*.emerg|" /etc/rsyslog.conf && \
     rm -rf /var/cache/apk/*
