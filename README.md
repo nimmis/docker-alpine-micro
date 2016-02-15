@@ -139,4 +139,12 @@ remove the container
 ### TAGs
 
 This image only contains the latest versions of Apline, the versions are
-nimmis/apline-micro:<tag> where tag is
+nimmis/alpine-micro:<tag> where tag is
+
+| Tag    | Alpine version | size |
+| ------ | -------------- | ---- |
+| latest |  latest/3.3    | [![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest) | 
+| 3.3    |  3.3           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.3.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.3) |
+| 3.2    |  3.2           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.2.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.2) |
+| 3.1    |  3.1           | [![](https://badge.imagelayers.io/nimmis/alpine-mciro:3.1.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.1) |
+| edge   |  edge          | [![](https://badge.imagelayers.io/nimmis/alpine-mciro:edge.svg)](https://imagelayers.io/?images=nimmis/alpine-mciro:edge) |
