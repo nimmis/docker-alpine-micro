@@ -143,7 +143,8 @@ nimmis/alpine-micro:<tag> where tag is
 
 | Tag    | Alpine version | size |
 | ------ | -------------- | ---- |
-| latest |  latest/3.3    | [![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest) | 
+| latest |  latest/3.4    | [![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest) | 
+| 3.4    |  3.4           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.3.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.4) |
 | 3.3    |  3.3           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.3.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.3) |
 | 3.2    |  3.2           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.2.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.2) |
 | 3.1    |  3.1           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.1.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.1) |
