@@ -8,7 +8,7 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
     apk add ca-certificates rsyslog logrotate runit@testing && \
     mkdir /etc/run_always && mkdir /etc/run_once && \
     # Make info file about this build
-    printf "Build of nimmis/alpine-micro, date: %s"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+    printf "Build of nimmis/alpine-micro, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
     # install extra from github
     apk add curl && \
     cd /tmp && \
