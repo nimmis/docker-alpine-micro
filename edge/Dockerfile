@@ -3,12 +3,9 @@ FROM alpine:edge
 MAINTAINER nimmis <kjell.havneskold@gmail.com>
 
 
-RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    echo "@fix http://dl-cdn.alpinelinux.org/alpine/v3.4/main" >> /etc/apk/repositories && \
+RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && apk upgrade && \
-    # fix for missing libfastj.so.3 in edge needed by rsyslog
-    apk add libfastjson@fix && \
-    apk add ca-certificates rsyslog logrotate runit@testing && \
+    apk add ca-certificates rsyslog logrotate runit@community && \
     mkdir /etc/run_always && mkdir /etc/run_once && \
     # Make info file about this build
     printf "Build of nimmis/alpine-micro, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \

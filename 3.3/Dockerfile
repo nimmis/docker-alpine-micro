@@ -3,9 +3,9 @@ FROM alpine:3.3
 MAINTAINER nimmis <kjell.havneskold@gmail.com>
 
 
-RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && apk upgrade && \
-    apk add ca-certificates rsyslog logrotate runit@testing && \
+    apk add ca-certificates rsyslog logrotate runit@community && \
     mkdir /etc/run_always && mkdir /etc/run_once && \
     # Make info file about this build
     printf "Build of nimmis/alpine-micro, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
@@ -34,4 +34,5 @@ WORKDIR /root
 
 # Define default command.
 CMD ["/boot.sh"]
+
 
