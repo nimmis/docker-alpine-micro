@@ -1,7 +1,7 @@
 ## microcontainer based on Alpine with working init process
-[![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest)
+[![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com")
 
-This is a very small container (8.4 Mb) but still have a working init process, crond, syslog and logrotate. This is the base image for all my other microcontainers
+This is a very small container (total 8.3 Mb) but still have a working init process, crond, syslog and logrotate. This is the base image for all my other microcontainers
 
 ### Why use this image
 
@@ -143,9 +143,9 @@ nimmis/alpine-micro:<tag> where tag is
 
 | Tag    | Alpine version | size |
 | ------ | -------------- | ---- |
-| latest |  latest/3.4    | [![](https://badge.imagelayers.io/nimmis/alpine-micro:latest.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:latest) | 
-| 3.4    |  3.4           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.3.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.4) |
-| 3.3    |  3.3           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.3.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.3) |
-| 3.2    |  3.2           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.2.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.2) |
-| 3.1    |  3.1           | [![](https://badge.imagelayers.io/nimmis/alpine-micro:3.1.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:3.1) |
-| edge   |  edge          | [![](https://badge.imagelayers.io/nimmis/alpine-micro:edge.svg)](https://imagelayers.io/?images=nimmis/alpine-micro:edge) |
+| latest |  latest/3.4    | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com") | 
+| 3.4    |  3.4           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.4.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.4 "Get your own image badge on microbadger.com") |
+| 3.3    |  3.3           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.3.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.3 "Get your own image badge on microbadger.com") |
+| 3.2    |  3.2           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.2.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.2 "Get your own image badge on microbadger.com") |
+| 3.1    |  3.1           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.1.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.1 "Get your own image badge on microbadger.com") |
+| edge   |  edge          | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:edge.svg)](https://microbadger.com/images/nimmis/alpine-micro:edge "Get your own image badge on microbadger.com") |
