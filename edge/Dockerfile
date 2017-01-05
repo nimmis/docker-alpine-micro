@@ -2,6 +2,7 @@ FROM alpine:edge
 
 MAINTAINER nimmis <kjell.havneskold@gmail.com>
 
+COPY root/. /
 
 RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
@@ -11,9 +12,6 @@ RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/
 
     # add packages
     apk add ca-certificates rsyslog logrotate runit && \
-
-    # create special directories
-    mkdir /etc/run_always && mkdir /etc/run_once && \
 
     # Make info file about this build
     mkdir -p /etc/BUILDS/ && \
