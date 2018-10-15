@@ -158,7 +158,8 @@ nimmis/alpine-micro:<tag> where tag is
 
 | Tag    | Alpine version | size |
 | ------ | -------------- | ---- |
-| latest |  latest/3.6    | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com") | 
+| latest |  latest/3.8    | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com") | 
+| 3.8    |  3.8           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.8.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.8 "Get your own image badge on microbadger.com") |
 | 3.7    |  3.7           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.7.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.7 "Get your own image badge on microbadger.com") |
 | 3.6    |  3.6           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.6.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.6 "Get your own image badge on microbadger.com") |
 | 3.5    |  3.5           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.5.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.5 "Get your own image badge on microbadger.com") |
@@ -167,3 +168,8 @@ nimmis/alpine-micro:<tag> where tag is
 | 3.2    |  3.2           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.2.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.2 "Get your own image badge on microbadger.com") |
 | 3.1    |  3.1           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.1.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.1 "Get your own image badge on microbadger.com") |
 | edge   |  edge          | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:edge.svg)](https://microbadger.com/images/nimmis/alpine-micro:edge "Get your own image badge on microbadger.com") |
+
+## Contributors
+
+ - Maximilien Richer
+
