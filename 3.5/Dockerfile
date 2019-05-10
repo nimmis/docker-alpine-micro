@@ -6,12 +6,16 @@ COPY root/. /
 
 RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    echo "@edge http://dl-4.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
 
     # read packages and update
     apk update && apk upgrade && \
 
+    # fix old apk-tools
+    apk add --upgrade apk-tools@edge && \
+
     # add packages
-    apk add ca-certificates rsyslog logrotate runit && \
+    apk add ca-certificates rsyslog logrotate runit@community && \
 
     # Make info file about this build
     mkdir -p /etc/BUILDS/ && \
