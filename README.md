@@ -20,7 +20,7 @@ In this container runit is used to handle starting and shuttning down processes 
 Add a directory under the directory /etc/service/ that matches the process that should be started. Lets add a nginx start script to the container. First create the directory
 
     mkdir /etc/service/nginx
-    
+
 and then create a file named `run` i that directory with the start code fpr nginx
 
     #!/bin/sh
@@ -45,7 +45,7 @@ as nginx.sh containing the code
 and make the file executable
 
     chmod +x nginx.sh
-    
+
 and add this lines to Dockerfile
 
     ADD nginx.sh /etc/service/nginx/run
@@ -54,7 +54,7 @@ and add this lines to Dockerfile
 If you need environment variables from the docker command line (-e,--env=[]) add
 
     source /etc/envvars
-    
+
 before you use them in the script file
 
 In this container i have a scipt that handles the init process an uses the [supervisor system](http://supervisord.org/index.html) to start
@@ -72,7 +72,7 @@ All executable in this directory is run at every start of the container, ie, at 
 
 #### Permanent output to docker log when starting container
 
-Each time the container is started the content of the file /tmp/startup.log is displayed so if your startup scripts generate 
+Each time the container is started the content of the file /tmp/startup.log is displayed so if your startup scripts generate
 vital information to be shown please add that information to that file. This information can be retrieved anytime by
 executing `docker logs <container id>`
 
@@ -87,7 +87,7 @@ to big on log running containers.
 No all services works without a syslog daemon, if you don't have one running those messages is lost in space,
 all messages sent via the syslog daemon is saved in /var/log/syslog
 
-### Docker fixes 
+### Docker fixes
 
 Also there are fixed (besideds the init process) assosiated with running linux inside a docker container.
 
@@ -106,7 +106,7 @@ for extra functionality
 #### set_tz
 
 In the default configuration Alpine is set to GMT time, if you need it
-to use the corret time you can change to timezone for the container 
+to use the corret time you can change to timezone for the container
 with this command, syntax is
 
 	set_tz <timezone>
@@ -118,7 +118,7 @@ To get list of available timezones do
 
 ##### set timezone on startup
 
-Add the environment variable TIMEZONE to the desired timezone, i.e to set timezone to 
+Add the environment variable TIMEZONE to the desired timezone, i.e to set timezone to
 CET Stockhome
 
 	docker run -d -e TIMEZONE=Europa/Stockholm nimmis/alpine-micro
@@ -158,7 +158,8 @@ nimmis/alpine-micro:<tag> where tag is
 
 | Tag    | Alpine version | size |
 | ------ | -------------- | ---- |
-| latest |  latest/3.9    | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com") | 
+| latest |  latest/3.10    | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro.svg)](https://microbadger.com/images/nimmis/alpine-micro "Get your own image badge on microbadger.com") |
+| 3.10   |  3.10           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.10.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.10 "Get your own image badge on microbadger.com") |
 | 3.9    |  3.9           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.9.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.9 "Get your own image badge on microbadger.com") |
 | 3.8    |  3.8           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.8.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.8 "Get your own image badge on microbadger.com") |
 | 3.7    |  3.7           | [![](https://images.microbadger.com/badges/image/nimmis/alpine-micro:3.7.svg)](https://microbadger.com/images/nimmis/alpine-micro:3.7 "Get your own image badge on microbadger.com") |
@@ -173,4 +174,3 @@ nimmis/alpine-micro:<tag> where tag is
 ## Contributors
 
  - Maximilien Richer
-
