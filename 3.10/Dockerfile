@@ -38,8 +38,7 @@ RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/
 
     # fix container bug for syslog
     sed  -i "s|\*.emerg|\#\*.emerg|" /etc/rsyslog.conf && \
-    sed -i 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf && \
-    sed -i 's/$KLogPermitNonKernelFacility on/#$KLogPermitNonKernelFacility on/' /etc/rsyslog.conf && \
+    sed  -i 's/module(load="imklog")/#module(load="imklog")/' /etc/rsyslog.conf && \
 
     # remove cached info
     rm -rf /var/cache/apk/*
