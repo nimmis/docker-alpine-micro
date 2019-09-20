@@ -15,7 +15,7 @@ RUN echo "@community http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/
 
     # Make info file about this build
     mkdir -p /etc/BUILDS/ && \
-    printf "Build of nimmis/alpine-micro:3.9, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/alpine-micro && \
+    printf "Build of nimmis/alpine-micro:3.10, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/alpine-micro && \
 
     # install extra from github, including replacement for process 0 (init)
 
