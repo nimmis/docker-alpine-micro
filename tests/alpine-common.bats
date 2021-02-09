@@ -32,6 +32,10 @@ setup() {
   run docker run --rm $REPO:$TAG cat /etc/apk/repositories
   [ $status -eq 0 ]
   case $BRANCH in
+    v3.1[3-9])
+        [ "${lines[0]}" = "https://dl-cdn.alpinelinux.org/alpine/$BRANCH/main" ]
+        [ "${lines[1]}" = "https://dl-cdn.alpinelinux.org/alpine/$BRANCH/community" ]
+        ;;
     v3.1|v3.2)
         [ "${lines[0]}" = "http://dl-cdn.alpinelinux.org/alpine/$BRANCH/main" ]
         [ "${lines[1]}" = "@community http://dl-4.alpinelinux.org/alpine/edge/community" ]
